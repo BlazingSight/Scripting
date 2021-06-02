@@ -283,7 +283,7 @@ else
     connection:Disconnect()
 end
 end
-
+--[[ auto execute ]]
     plr = game.Players.LocalPlayer
     Char = plr.Character    
     humrp = Char.HumanoidRootPart
@@ -293,25 +293,22 @@ end
         end)
     end
 
-    if getgenv().Dungeon then
         spawn(function()
              AutoFarm()
              AutoStore()
              Noclipping = game:GetService('RunService').Stepped:Connect(NoclipLoop)
         end)
-    end
     if getgenv().FallDamage then
         humrp.OriginalSize.Name = "geppo"
     end
 	if getgenv().Noclip then
 		NoclipLoop()
 	end
-    end)
 
-
+--[[--------------------------------]]--
     Farm:Dropdown("Weapon",{"Katana","Skyblue Katana","Ryu's Blade","Seabeast Katana"},true,function(weapon)
     getgenv().Weapon = weapon
-    
+    end)
 -- Mob Farm Features
 Farm:Dropdown("NPC",{"Bandit","Bandit Boss","Desert Bandit","Zou Inhabitant","Castle Guard","Gravito's Undermen","Fishman Karate User","Yeti","Ryu"},true,function(mob)
     getgenv().NPC = mob
