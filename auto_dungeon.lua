@@ -283,8 +283,7 @@ else
     connection:Disconnect()
 end
 end
-plr.CharacterAdded:Connect(function()
-    wait(5)
+
     plr = game.Players.LocalPlayer
     Char = plr.Character    
     humrp = Char.HumanoidRootPart
@@ -312,8 +311,7 @@ plr.CharacterAdded:Connect(function()
 
     Farm:Dropdown("Weapon",{"Katana","Skyblue Katana","Ryu's Blade","Seabeast Katana"},true,function(weapon)
     getgenv().Weapon = weapon
-end)
-
+    
 -- Mob Farm Features
 Farm:Dropdown("NPC",{"Bandit","Bandit Boss","Desert Bandit","Zou Inhabitant","Castle Guard","Gravito's Undermen","Fishman Karate User","Yeti","Ryu"},true,function(mob)
     getgenv().NPC = mob
