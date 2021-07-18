@@ -9,7 +9,6 @@ local starthp = hum.MaxHealth
 local noclip
 local allblacklist = false
 local blacklist = {}
-
 for i,v in pairs(blacklist) do
     if plr.UserId == v then
         plr:Kick("BLACKLISTED!")
@@ -26,7 +25,13 @@ local function find(name)
         return true
     end
 end
-
+---kick tp back
+local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "Lol it should work :/")
+assert(not prompt:FindFirstChild("ErrorPrompt"), prompt:FindFirstChild("ErrorPrompt") and wait(2) and game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer))
+prompt.ChildAdded:Connect(function(child)
+   assert(child, typeof(child) == "Instance" and child.Name == "ErrorPrompt" and child.ClassName == "Frame" and wait(2) and game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer))
+end)
+---
 local function NoclipLoop()
 
     for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
@@ -35,6 +40,7 @@ local function NoclipLoop()
         end
     end
 end
+
 
 local function autodura()
     if toggled then
@@ -48,8 +54,8 @@ local function autodura()
             if toggled then
             repeat
                 wait()
-            fireclickdetector(SelfTool)
-            until plr.Backpack:FindFirstChild("Self Punch") or Char:FindFirstChild("Self Punch")
+            fireclickdetector(DuraTool)
+            until plr.Backpack:FindFirstChild("Durability Training") or Char:FindFirstChild("Durability Training")
             hum:EquipTool(bp["Durability Training"])
             Char:WaitForChild("Durability Training")
             Char["Durability Training"]:Activate()
@@ -68,7 +74,7 @@ local function autodura()
         end
         end
     else
-        print("Total Hp gained:",hum.MaxHealth-starthp)
+        print("Total Hp gained:",hum.MaxHealth-starthp,"Maxhp:",hum.MaxHealth)
     end
 end
 
@@ -86,6 +92,6 @@ humrp.CFrame = CFrame.new(-1903.6256103516, 92.556350708008, -188.62586975098)
 hum = Char.Humanoid
 noclip = game:GetService('RunService').Stepped:Connect(NoclipLoop)
 wait(6)
-print("Total Hp gained:",hum.MaxHealth-starthp)
+print("Total Hp gained:",hum.MaxHealth-starthp,"Maxhp:",hum.MaxHealth)
 autodura()
 end)
