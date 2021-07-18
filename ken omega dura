@@ -1,4 +1,3 @@
-getgenv().toggled = true
 print("wait time no longer needed instantly starts when u get ur hp, added admin kick")
 
 local plr = game.Players.LocalPlayer
