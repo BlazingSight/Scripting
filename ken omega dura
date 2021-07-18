@@ -1,3 +1,6 @@
+getgenv().toggled = true
+print("wait time no longer needed instantly starts when u get ur hp, added admin kick")
+
 local plr = game.Players.LocalPlayer
 local bp = plr.Backpack
 local Char = plr.Character
@@ -9,6 +12,15 @@ local starthp = hum.MaxHealth
 local noclip
 local allblacklist = false
 local blacklist = {}
+local baseplate
+if not workspace:FindFirstChild("ALALALALABaseplate") then
+    print("new baseplate")
+    baseplate = Instance.new("Part",workspace)
+    baseplate.Size = Vector3.new(3000,5,3000)
+    baseplate.Anchored = true
+    baseplate.CanCollide = true
+    baseplate.Name = "ALALALALABaseplate"
+end
 for i,v in pairs(blacklist) do
     if plr.UserId == v then
         plr:Kick("BLACKLISTED!")
@@ -25,6 +37,24 @@ local function find(name)
         return true
     end
 end
+
+local function kickonsight(target)
+    local role = target:GetRoleInGroup(4701945)
+    if role == "Accepter" or role == "Helper" or role == "developer" or role == "Owner" then
+        game.Players.LocalPlayer:Kick("FUCKING "..role.." IS IN GAME BRO LMAO")
+    elseif table.find(blacklist,target.UserId) then
+        game.Players.LocalPlayer:Kick("FUCKING "..target.Name.." IS IN GAME BRO LMAO")
+    end
+end
+
+spawn(function()
+    for i,v in pairs(game.Players:GetChildren()) do
+       if v:IsA("Player") then
+        kickonsight(v)
+       end
+    end
+end)
+
 ---kick tp back
 local prompt = assert(game:GetService("CoreGui"):FindFirstChild("promptOverlay", true), "Lol it should work :/")
 assert(not prompt:FindFirstChild("ErrorPrompt"), prompt:FindFirstChild("ErrorPrompt") and wait(2) and game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer))
@@ -77,8 +107,6 @@ local function autodura()
                     Char["Self Punch"]:Activate()
                     Char["Self Punch"]:Activate()
                     Char["Self Punch"]:Activate()
-                    Char["Self Punch"]:Activate()
-                    Char["Self Punch"]:Activate()
                 end)
             until Char.Humanoid.Health <= 1.5 
             noclip:Disconnect()
@@ -103,10 +131,11 @@ Char = plr.Character
 Char:WaitForChild("HumanoidRootPart")
 humrp = Char.HumanoidRootPart
 wait(.1)
+baseplate.Position = humrp.Position+Vector3.new(-3000,92.556350708008,-300)
 humrp.CFrame = CFrame.new(-1903.6256103516, 92.556350708008, -188.62586975098)
 hum = Char.Humanoid
 noclip = game:GetService('RunService').Stepped:Connect(NoclipLoop)
-wait(waittime)
+repeat wait() until hum.MaxHealth > 100
 print("Total Hp gained:",hum.MaxHealth-starthp,"Maxhp:",hum.MaxHealth)
 autodura()
 end)
