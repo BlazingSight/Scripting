@@ -77,6 +77,8 @@ local function autodura()
                     Char["Self Punch"]:Activate()
                     Char["Self Punch"]:Activate()
                     Char["Self Punch"]:Activate()
+                    Char["Self Punch"]:Activate()
+                    Char["Self Punch"]:Activate()
                 end)
             until Char.Humanoid.Health <= 1.5 
             noclip:Disconnect()
