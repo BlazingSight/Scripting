@@ -1,0 +1,279 @@
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
+local plr = game.Players.LocalPlayer
+local Char = plr.Character
+local humrp = Char.HumanoidRootPart
+local DSRPG2 = library:CreateWindow("Xeno Online")
+local Farm = DSRPG2:CreateFolder("Abuse Someone")
+local TS = game:GetService("TweenService")
+local target
+local toggled = false
+local list = {}
+local nocliploop = nil
+local Shadowfarm = false
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+    wait(2)
+plr = game.Players.LocalPlayer
+Char = plr.Character
+humrp = Char.HumanoidRootPart
+end)
+
+local function noclip()
+    for i,v in pairs(Char:GetDescendants()) do
+        if v:IsA("Part") then
+            v.CanCollide = false
+        end
+    end
+end
+
+
+local function rape()  
+    local mob
+    local vhumrp 
+    if not Shadowfarm then
+     mob = target
+     vhumrp = mob.HumanoidRootPart
+    end
+
+    local started = tick()
+
+    if Shadowfarm and toggled then
+        humrp.CFrame = CFrame.new(humrp.CFrame.X,30472,humrp.CFrame.Z)
+
+        spawn(function()
+            while wait() do
+                if toggled and Shadowfarm then
+                    for i,v in pairs(game.Players:GetChildren()) do
+                        if v:IsA("Player") and (v.Character.HumanoidRootPart.Torso.Position-humrp.Position).Magnitude <= 50 then
+                            plr:Kick("Shitter nearby kicking")
+                        end
+                    end
+                else
+                    break
+                end
+            end
+        end)
+        spawn(function()
+            wait(10)
+            if toggled and Shadowfarm then
+            game:GetService("Players").LocalPlayer.Character.Client.Events.Rest:FireServer()
+            end
+        end)
+    if toggled and not game.Workspace:FindFirstChild(plr.Name.."'s Shadow Image") then
+        repeat
+            wait(1)
+            if not game.Workspace:FindFirstChild(plr.Name.."'s Shadow Image") then
+        game:GetService("Players").LocalPlayer.Character.Client.Events:FindFirstChild("Shadow Spar"):FireServer()
+            end
+        until game.Workspace:FindFirstChild(plr.Name.."'s Shadow Image")
+    end
+    mob = game.Workspace:FindFirstChild(plr.Name.."'s Shadow Image")
+    vhumrp = mob.HumanoidRootPart
+    spawn(function()
+        repeat
+            wait()
+            if toggled then
+            if tick()-started >= 1500 then
+                started = tick()
+            game:GetService("Players").LocalPlayer.Character.Client.Events:FindFirstChild("Shadow Spar"):FireServer()
+            wait(10)
+            repeat
+                wait(1)
+                if not game.Workspace:FindFirstChild(plr.Name.."'s Shadow Image") then
+            game:GetService("Players").LocalPlayer.Character.Client.Events:FindFirstChild("Shadow Spar"):FireServer()
+                end
+            until game.Workspace:FindFirstChild(plr.Name.."'s Shadow Image")
+            end
+        end
+        until 1 == 1 or not toggled
+    end)
+
+end
+    spawn(function()
+        local name = target.Name
+        while toggled and not Shadowfarm do
+            wait()
+            if target.Parent == nil then
+                   for i,v in pairs(workspace:GetDescendants()) do
+                     if v.Name == name and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+                        target = v
+                        mob = target
+                     end
+                   end
+            end
+        end
+    end)
+
+    nocliploop = game:GetService("RunService").RenderStepped:Connect(function()
+        local a = math.random(1,2)
+        if a == 1 then
+            humrp.CFrame = vhumrp.CFrame*CFrame.new(0,0,2)
+        else
+            humrp.CFrame = vhumrp.CFrame*CFrame.new(0,0,-2)
+        end
+        noclip()
+    end)
+    local BV
+
+    if humrp:FindFirstChild("FlyingPosition") then
+        humrp.FlyingPosition:Destroy()
+    end
+    if not humrp:FindFirstChild("Pops") then
+     BV =  Instance.new("BodyVelocity",humrp)
+    BV.Name = "Pops"
+    BV.Velocity = Vector3.new(0,0,0)
+    end
+
+  
+
+    spawn(function()
+        if toggled then
+            repeat
+                wait(.01)
+                game:GetService("Players").LocalPlayer.Character.Config.FullyStunned.Value  = false
+                if vhumrp:FindFirstChild("Fire") then
+                    game:GetService("Players").LocalPlayer.Character.Client.Events.Block:InvokeServer()
+                end
+                game:GetService("Players").LocalPlayer.Character.Client.Events:FindFirstChild("Zenkai Vanish"):FireServer()
+
+                if (humrp.Position-vhumrp.Position).Magnitude <= 5 then
+                    game:GetService("Players").LocalPlayer.Character.Client.Events.LightAttack:FireServer("SecretCode")
+                    game:GetService("Players").LocalPlayer.Character.Client.Events.LightAttack:FireServer("SecretCode")
+                end
+            until not toggled
+        end
+    
+    end)
+
+
+    spawn(function()
+        repeat
+            wait()
+          
+            until not toggled
+    end)
+repeat  
+    local distance = (humrp.Position-vhumrp.Position).Magnitude
+    if Char.Health.Value <= 30  then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1000.4489746094, 600.6026196479797, 1496.1838378906)
+        repeat
+
+        wait()
+    until Char.Health.Value >= 100 or not toggled
+    end
+    wait()
+until not toggled
+BV:Destroy()
+nocliploop:Disconnect()
+end
+
+local function updateplr()
+    for i,v in pairs(game.Workspace:GetDescendants()) do
+        if v:FindFirstChild("HumanoidRootPart") then
+            table.insert(list,v.Name)
+            table.sort(list)
+        end
+    end
+    end
+    
+updateplr()
+
+local targets = Farm:Dropdown("Target",list,true,function(mob)
+
+    for i,v in pairs(workspace:GetDescendants()) do
+        if v.Name == mob and v:FindFirstChild("HumanoidRootPart") then
+            target = v  
+            return
+        end
+    end
+end)
+
+local function updateplr()
+    for i,v in pairs(game.Workspace:GetChildren()) do
+        if v:FindFirstChild("HumanoidRootPart")  and not table.find(list,v.Name) then
+            table.insert(list,v.Name)
+            table.sort(list)
+        end
+        targets:Refresh(list)
+    end
+    end
+
+game.Players.PlayerAdded:Connect(updateplr)
+game.Players.PlayerRemoving:Connect(updateplr)
+
+--[[
+Farm:Button("Refresh",function()
+    updateplr()
+end)--]]
+
+
+
+Farm:Toggle("FIRE MA LAZER",function(bool)
+    toggled = bool
+    if bool then
+spawn(function()
+        rape()    
+end)
+end
+end)
+
+Farm:Toggle("Shadow Farm",function(bool)
+    Shadowfarm = bool
+end)
+
+local esp = false
+local esplist = {}
+
+local function addesp(plr)
+    if not plr.Character.HumanoidRootPart:FindFirstChild("ESP") then
+        local vhumrp = plr.Character.HumanoidRootPart
+        local Config = vhumrp.Parent.Config
+        local vchar = vhumrp.Parent
+
+        local ESP = Instance.new("BillboardGui",vhumrp)
+        ESP.MaxDistance = 100000
+        ESP.AlwaysOnTop = true
+        ESP.StudsOffset = Vector3.new(0,2,0)
+        ESP.Size = UDim2.new(1,0,1,0)
+        local Info = Instance.new("TextLabel",ESP)
+        Info.BackgroundTransparency = 1
+        Info.TextColor3 = Color3.fromRGB(1,1,1)
+        Info.Size = UDim2.new(1,0,1,0)
+        Info.Text = plr.Name.." BP: "..Config.BattlePower.Value.." Health: "..vhumrp.Parent.Health.Value
+        Config.BattlePower:GetPropertyChangedSignal("Value"):Connect(function()
+            Info.Text = plr.Name.." BP: "..Config.BattlePower.Value.." Health: "..vhumrp.Parent.Health.Value
+        end)
+ 
+        vchar.Health:GetPropertyChangedSignal("Value"):Connect(function()
+            Info.Text = plr.Name.." BP: "..Config.BattlePower.Value.." Health: "..vhumrp.Parent.Health.Value
+        end)
+
+        table.insert(esplist,ESP)
+    end
+end
+Farm:Toggle("ESP",function(bool)
+  if bool then
+    for i,v in pairs(game.Players:GetChildren()) do
+        if v:IsA("Player") then
+            addesp(v)
+            v.CharacterAdded:Connect(function()
+                wait(3)
+                addesp(v)
+            end)
+        end
+    end
+
+    game.Players.PlayerAdded:Connect(function(plr1)
+        addesp(plr1)
+        plr1.CharacterAdded:Connect(function()
+            wait(3)
+            addesp(plr1)
+        end)
+    end)
+
+else
+    for i,v in pairs(esplist) do
+        v:Destroy()
+    end
+  end
+end)
