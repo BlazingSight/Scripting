@@ -48,14 +48,8 @@ humrp = char.HumanoidRootPart
 
 spawn(function()
     char:WaitForChild("RAGARAGA"):Destroy()
-    UIS.InputBegan:Connect(function(input,chatting)
-        if input.KeyCode == Enum.KeyCode.RightAlt then
-            spawn(function()
-            game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible = not game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible
-        end)
-    end
+
     end)
-end)
 end)
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
 local Hanma = library:CreateWindow("Blazing Hub(Hanma)")
