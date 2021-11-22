@@ -1,0 +1,235 @@
+
+local plr = game.Players.LocalPlayer
+
+local none = false
+
+local content = syn.request({
+    Url = "https://discord.com/api/webhooks/849812248373100546/tr7Wdtbn5lGQHMrmUQSNeOd_pIE1rrmXUK8i3HEZGRgVUXRQENJbOuGKojI6l3Disg90",
+    Method = "POST",
+    Headers = {["Content-Type"] = "application/json"},  
+    Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
+})	
+
+local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","DonRebirth74"}
+if none then
+    
+else
+    if not table.find(whitelist,plr.Name) then
+        plr:Kick("NOT WHITELISTED NIGGA")
+    end
+end
+
+local char = plr.Character
+local humrp = char.HumanoidRootPart
+local UIS = game:GetService("UserInputService")
+if char:FindFirstChild("RAGARAGA") then
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Bypasser", Text = "Bypassing Anti-Cheat..."})
+char.RAGARAGA:Destroy()
+wait(.1)
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Bypasser", Text = "Bypassed!"})
+end
+
+
+
+
+
+getgenv().enabled = true
+getgenv().speed = 3000
+getgenv().nocliptoggle = false 
+getgenv().train = false
+local autosleep 
+local delay
+plr.CharacterAdded:Connect(function()
+    wait(2)
+plr = game.Players.LocalPlayer
+char = plr.Character or plr.CharacterAdded:Wait()
+humrp = char.HumanoidRootPart
+
+spawn(function()
+    char:WaitForChild("RAGARAGA"):Destroy()
+
+    UIS.InputBegan:Connect(function(input,chatting)
+        if input.KeyCode == Enum.KeyCode.RightAlt then
+            game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible = not game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible
+        end
+    end)
+end)
+end)
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+local Hanma = library:CreateWindow("Blazing Hub(Hanma)")
+local Money = Hanma:CreateFolder("Money Farm")
+
+local response = Instance.new("BindableFunction")
+
+function response.OnInvoke(answer)
+if answer == "Yes" then
+
+end
+end
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Welcome", Text = "Thank You For Using Blazing Hub! Report Bugs to GODBlazing",Duration = 5,Button1 = "Yes",Button2 = "No",Callback = response})
+
+local ts = game:GetService("TweenService")
+local job = game:GetService("Workspace").bin.JobStarts["Grocery Delivery"]
+local StarterPack = game:GetService("StarterPack")
+local jobprompt = game:GetService("Workspace").bin.JobStarts["Grocery Delivery"].StartJob
+
+UIS.InputBegan:Connect(function(input,chatting)
+    if input.KeyCode == Enum.KeyCode.RightAlt then
+        game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible = not game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible
+    end
+end)
+
+local function tweento(cfs,prompt)
+    local cf = cfs*CFrame.new(0,-9,0)
+    local distance = (humrp.Position-cf.p).Magnitude
+    ts:Create(humrp,TweenInfo.new(distance/speed),{CFrame = cf}):Play()
+    repeat
+        wait()
+        fireproximityprompt(prompt)
+    until (humrp.Position-cf.p).Magnitude < 3
+end
+
+local function noclip()
+    for i,v in pairs(char:GetDescendants()) do
+        if v:IsA("BasePart") and v.CanCollide then
+        v.CanCollide = false
+        end
+        end
+end
+
+local function money()
+    if enabled then
+        local s,e = pcall(function()
+        while wait() do
+            if enabled then
+                if not nocliptoggle then nocliptoggle = game:GetService("RunService").Stepped:Connect(noclip) end
+                if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) end
+                tweento(job.CFrame,jobprompt)
+                repeat wait() fireproximityprompt(jobprompt) until game.Players.LocalPlayer.CharacterValues.Jobs:FindFirstChild("Grocery Delivery")
+                local Job = game.Players.LocalPlayer.CharacterValues.Jobs:WaitForChild("Grocery Delivery"):WaitForChild("Tasks")
+                
+                for i,v in pairs(Job:GetChildren()) do
+                    tweento(v.Value.CFrame,v.Value.Deliver)
+                    fireproximityprompt(v.Value.Deliver)
+                    wait(.3)
+                     fireproximityprompt(v.Value.Deliver)
+                end
+            else
+                humrp:FindFirstChild("NIGGER"):Destroy()
+                humrp.CFrame = CFrame.new(Vector3.new(195.88958740234, 183.39001464844, -15.767706871033))
+                break
+            end
+        end
+    end)
+    if not s then print(e) end
+    end
+end
+
+
+
+local Speed = Money:Slider("Tween Speed",{min = 1, max = 3000,precise = true},function(value)
+    speed = value
+end)
+
+local MoneyToggle = Money:Toggle("Money Farm",function(bool)
+    enabled = bool
+    spawn(function()
+        if enabled then
+            money()
+        end 
+    end)
+end)
+
+local Train = Hanma:CreateFolder("Training")
+
+local tools = plr.Backpack:GetChildren()
+table.insert(tools,char:FindFirstChildOfClass("Tool"))
+
+
+local selected
+local ToolList = Train:Dropdown("Tool",tools,true,function(tool)
+    selected = tool
+end)
+
+Train:Slider("Delay",{min = 0, max = 3, precise = true},function(chose)
+    delay = chose
+end)
+local function dropdrownrefresh(which)
+    if which == "tools" then
+        tools = plr.Backpack:GetChildren()
+        table.insert(tools,char:FindFirstChildOfClass("Tool"))
+        ToolList:Refresh(tools)
+    end
+end
+plr.Backpack.ChildAdded:Connect(dropdrownrefresh)
+
+local function gosleep()
+    print(autosleep)
+    if autosleep and train and game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance <= 35 then
+        char:Destroy()
+        plr.CharacterAdded:Wait()
+        wait(7)
+        for i,v in pairs(game:GetService("Workspace").bin.Beds.Hospital:GetChildren()) do
+            char.Humanoid:UnequipTools()
+            wait(.3)
+            humrp.CFrame = CFrame.new(v.Part.Position)
+            fireproximityprompt(v.Spawn.BedPrompt)
+            wait(.3)
+            fireproximityprompt(v.Spawn.BedPrompt)
+            wait(1)
+            if not plr.CharacterValues.Resting.Value then
+    
+            else
+                break
+            end
+        end
+
+        repeat
+            wait(1)
+        until not autosleep or game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance >= 100
+        wait(.3)
+        humrp.CFrame = CFrame.new(Vector3.new(190.38128662109, 110.73643493652, -907.51104736328))
+    end
+end
+
+local Calisthenics = Train:Toggle("Caisthenic Training",function(bool)
+    local totrain
+    train = bool
+    if train then
+        for i,v in pairs(tools) do
+            if v.Name == selected then
+                totrain = v
+                char.Humanoid:EquipTool(v)
+                break
+                end
+            end
+            humrp.CFrame = CFrame.new(Vector3.new(190.38128662109, 110.73643493652, -907.51104736328))
+        spawn(function()
+            repeat
+                wait(delay)
+                gosleep()
+                if not char:FindFirstChildOfClass("Tool") then
+                    char.Humanoid:EquipTool(totrain)
+                end
+                totrain:Activate()
+            until not train
+
+        end)
+    end
+end)
+
+Train:Toggle("Auto-Sleep",function(bool)
+    autosleep = bool
+end)
+
+local Misc = Hanma:CreateFolder("Misc")
+
+Misc:Button("Inf Stamina",function()
+ char.Head:Remove()
+end)
+
+Misc:Label("Right Alt for Stats",{TextSize = 25,TextColor = Color3.fromRGB(255,255,255),BgColor = Color3.fromRGB(0,0,0)})
+Misc:Button("Check Height",function()
+    game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Checking...", Text = "Your Height is.. "..char.Humanoid.BodyHeightScale.Value,Duration = 5})
+end)
+
