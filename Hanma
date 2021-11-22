@@ -10,7 +10,7 @@ local content = syn.request({
     Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
 })	
 
-local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","DonRebirth74"}
+local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","DonRebirth74","Valkvop"}
 if none then
     
 else
@@ -66,7 +66,18 @@ if answer == "Yes" then
 
 end
 end
-game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Welcome", Text = "Thank You For Using Blazing Hub! Report Bugs to GODBlazing",Duration = 5,Button1 = "Yes",Button2 = "No",Callback = response})
+
+local title
+if plr.Name == "unseenshaow" then
+    title = "WELCOME BALD NIGGA BUM"
+elseif plr.Name == "DonRebirth74" or plr.Name == "Valkvop" then
+   title = "WELCOME BITCH MADE NIGGA GDK"
+elseif plr.Name "lutchiensky1" then
+    title = "WELCOME TAKI MAKI"
+else
+    title = "Welcome"
+end
+game:GetService("StarterGui"):SetCore("SendNotification",{Title = title, Text = "Thank You For Using Blazing Hub! Report Bugs to GODBlazing",Duration = 5,Button1 = "Yes",Button2 = "No",Callback = response})
 
 local ts = game:GetService("TweenService")
 local job = game:GetService("Workspace").bin.JobStarts["Grocery Delivery"]
