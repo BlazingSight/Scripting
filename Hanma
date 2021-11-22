@@ -162,7 +162,7 @@ local ToolList = Train:Dropdown("Tool",tools,true,function(tool)
     selected = tool
 end)
 
-Train:Slider("Delay",{min = 0, max = 3, precise = true},function(chose)
+Train:Slider("Delay",{min = 0, max = 60, precise = true},function(chose)
     delay = chose
 end)
 local function dropdrownrefresh(which)
