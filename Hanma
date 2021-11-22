@@ -10,7 +10,7 @@ local content = syn.request({
     Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
 })	
 
-local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","DonRebirth74","Valkvop"}
+local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","DonRebirth74"}
 if none then
     
 else
@@ -72,7 +72,7 @@ if plr.Name == "unseenshaow" then
     title = "WELCOME BALD NIGGA BUM"
 elseif plr.Name == "DonRebirth74" or plr.Name == "Valkvop" then
    title = "WELCOME BITCH MADE NIGGA GDK"
-elseif plr.Name "lutchiensky1" then
+elseif plr.Name == "lutchiensky1" then
     title = "WELCOME TAKI MAKI"
 else
     title = "Welcome"
@@ -243,4 +243,3 @@ Misc:Label("Right Alt for Stats",{TextSize = 25,TextColor = Color3.fromRGB(255,2
 Misc:Button("Check Height",function()
     game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Checking...", Text = "Your Height is.. "..char.Humanoid.BodyHeightScale.Value,Duration = 5})
 end)
-
