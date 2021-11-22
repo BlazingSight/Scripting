@@ -82,7 +82,11 @@ local jobprompt = game:GetService("Workspace").bin.JobStarts["Grocery Delivery"]
 
 UIS.InputBegan:Connect(function(input,chatting)
     if input.KeyCode == Enum.KeyCode.RightAlt then
+        spawn(function()
+            
+        
         game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible = not game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible
+    end)
     end
 end)
 
