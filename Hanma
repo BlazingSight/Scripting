@@ -39,6 +39,7 @@ getgenv().nocliptoggle = false
 getgenv().train = false
 local autosleep 
 local delay
+local infstam
 plr.CharacterAdded:Connect(function()
     wait(2)
 plr = game.Players.LocalPlayer
@@ -225,6 +226,9 @@ local Calisthenics = Train:Toggle("Caisthenic Training",function(bool)
         spawn(function()
             repeat
                 wait(delay)
+                if infstam and char:FindFirstChild("Head") then
+                    char.Head:Remove()
+                end
                 gosleep()
                 if not char:FindFirstChildOfClass("Tool") then
                     char.Humanoid:EquipTool(totrain)
@@ -242,8 +246,11 @@ end)
 
 local Misc = Hanma:CreateFolder("Misc")
 
-Misc:Button("Inf Stamina",function()
- char.Head:Remove()
+Misc:Toggle("Inf Stamina",function(bool)
+    infstam = bool
+ if bool then
+    char.Head:Remove()
+ end
 end)
 
 Misc:Label("Right Alt for Stats",{TextSize = 25,TextColor = Color3.fromRGB(255,255,255),BgColor = Color3.fromRGB(0,0,0)})
