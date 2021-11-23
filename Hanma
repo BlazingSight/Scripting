@@ -10,7 +10,7 @@ local content = syn.request({
     Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
 })	
 
-local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"}
+local whitelist = {"YourSpedLOL","unseenshaow","YourSpedLOL2","lutchiensky1","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"}
 if none then
     
 else
@@ -178,7 +178,7 @@ plr.Backpack.ChildAdded:Connect(dropdrownrefresh)
 
 local function gosleep()
     print(autosleep)
-    if autosleep and train and game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance <= 50.5 then
+    if autosleep and train and game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance <= 50.1 then
         char:Destroy()
         plr.CharacterAdded:Wait()
         wait(7)
@@ -234,6 +234,7 @@ local Calisthenics = Train:Toggle("Caisthenic Training",function(bool)
                 end
                 gosleep()
                 if not char:FindFirstChildOfClass("Tool") then
+                    totrain = plr.Backpack:FindFirstChild(totrain.Name) or plr.Character:FindFirstChild(totrain.Name)
                     char.Humanoid:EquipTool(totrain)
                 end
                 totrain:Activate()
