@@ -67,7 +67,7 @@ local title
 if plr.Name == "unseenshaow" then
     title = "WELCOME BALD NIGGA BUM"
 elseif plr.Name == "DonRebirth74" or plr.Name == "Valkvop" then
-   title = "WELCOME BITCH MADE NIGGA GDK"
+   title = "STUPID MIDGET FAGGOT AHAH BALD IRL"
 elseif plr.Name == "lutchiensky1" then
     title = "WELCOME TAKI MAKI"
 else
@@ -109,7 +109,7 @@ local function noclip()
 end
 
 local function buyfood()
-    if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) end
+    if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) BV.MaxForce = Vector3.new(1e8,1e8,1e8) BV.P = 50000 end
     if not nocliptoggle then nocliptoggle = game:GetService("RunService").Stepped:Connect(noclip) end
     local cf = humrp.CFrame
     humrp.CFrame = game:GetService("Workspace").bin.ShopButtons["Pepperoni Pizza"].Click.CFrame*CFrame.new(9,0,0)
@@ -133,7 +133,7 @@ local function money()
         while wait() do
             if enabled then
                 if not nocliptoggle then nocliptoggle = game:GetService("RunService").Stepped:Connect(noclip) end
-                if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) end
+                if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) BV.MaxForce = Vector3.new(1e8,1e8,1e8) BV.P = 50000 end
                 tweento(job.CFrame,jobprompt)
                 repeat wait() fireproximityprompt(jobprompt) until game.Players.LocalPlayer.CharacterValues.Jobs:FindFirstChild("Grocery Delivery")
                 local Job = game.Players.LocalPlayer.CharacterValues.Jobs:WaitForChild("Grocery Delivery"):WaitForChild("Tasks")
