@@ -10,7 +10,7 @@ local content = syn.request({
     Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
 })	
 
-local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion"}
+local whitelist = {"unseenshaow","YourSpedLOL2","lutchiensky1","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"}
 if none then
     
 else
