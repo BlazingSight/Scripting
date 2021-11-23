@@ -205,6 +205,7 @@ local function gosleep()
             wait()
         until not autosleep or game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance >= 100
         wait(.3)
+        char.Humanoid.Jump = true
         humrp.CFrame = CFrame.new(Vector3.new(190.38128662109, 110.73643493652, -907.51104736328))
     end
 end
