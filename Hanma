@@ -250,15 +250,18 @@ local Calisthenics = Train:Toggle("Caisthenic Training",function(bool)
                 spawn(function()
                     wait(math.random(6,13))
                     humrp.CFrame = CFrame.new(Vector3.new(190.38128662109, 110.73643493652, -907.51104736328))
-                    if game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger <= 80 then
-                        buyfood()
-                        repeat
-                            wait()
-                            char.Humanoid:EquipTool("Pepperoni Pizza")
-                            char:WaitForChild("Pepperoni Pizza"):Activate()
-                        until game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger >= 100
-                    end
                 end)
+
+                if game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger <= 80 then
+                    buyfood()
+                    repeat
+                        wait()
+                        char.Humanoid:UnequipTools()
+                        char.Humanoid:EquipTool("Pepperoni Pizza")
+                        char:WaitForChild("Pepperoni Pizza"):Activate()
+                    until game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger >= 100
+                end
+
                 if infstam and char:FindFirstChild("Head") then
                     char.Head:Remove()
                 end
