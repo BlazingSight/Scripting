@@ -202,7 +202,7 @@ local function gosleep()
         plr.CharacterAdded:Wait()
         wait(7)
         if infstam and char:FindFirstChild("Head") then
-            char.Head:Remove()
+         --   char.Head:Remove()
         end
         game:GetService("StarterGui"):SetCore("SendNotification",{Title = "", Text = "Waiting to unragdoll(safe)"})
         repeat
