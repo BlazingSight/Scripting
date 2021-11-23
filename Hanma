@@ -67,7 +67,7 @@ local title
 if plr.Name == "unseenshaow" then
     title = "WELCOME BALD NIGGA BUM"
 elseif plr.Name == "DonRebirth74" or plr.Name == "Valkvop" then
-   title = "STUPID MIDGET FAGGOT AHAH BALD IRL"
+   title = "WELCOME BITCH MADE NIGGA GDK"
 elseif plr.Name == "lutchiensky1" then
     title = "WELCOME TAKI MAKI"
 else
@@ -228,6 +228,9 @@ local function gosleep()
         until not autosleep or game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance >= 100
         wait(.3)
         char.Humanoid.Jump = true
+        char.Humanoid.Jump = true
+        char.Humanoid.Jump = true
+        wait(.4)
         humrp.CFrame = CFrame.new(Vector3.new(190.38128662109, 110.73643493652, -907.51104736328))
     end
 end
