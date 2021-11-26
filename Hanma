@@ -10,12 +10,12 @@ local content = syn.request({
     Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
 })	
 
-local whitelist = {"YourSpedLOL","unseenshaow","YourSpedLOL2","lutchiensky21","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"}
+local whitelist = {} --"YourSpedLOL","unseenshaow","YourSpedLOL2","lutchiensky21","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"
 if none then
     
 else
     if not table.find(whitelist,plr.Name) then
-        plr:Kick("NOT WHITELISTED NIGGA")
+        plr:Kick("DISCONTINUED RETARD")
     end
 end
 
