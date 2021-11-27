@@ -10,17 +10,19 @@ local content = syn.request({
     Body = game:GetService("HttpService"):JSONEncode({["content"] = plr.Name.." has executed Blazing Hub"})
 })	
 
-local whitelist = {} --"YourSpedLOL","unseenshaow","YourSpedLOL2","lutchiensky21","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"
+local whitelist = {"zorokiller_01","YourSpedLOL","unseenshaow","YourSpedLOL2","","trashaccount231","DonRebirth74","Valkvop","DonRebirthBitchMade","Arckerion","TweetieGumn"}
 if none then
     
 else
     if not table.find(whitelist,plr.Name) then
-        plr:Kick("DISCONTINUED RETARD")
+        plr:Kick("NOT WHITELISTED NIGGA")
     end
 end
 
 local char = plr.Character
 local humrp = char.HumanoidRootPart
+local hum = char.Humanoid
+
 local UIS = game:GetService("UserInputService")
 if char:FindFirstChild("RAGARAGA") then
 game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Bypasser", Text = "Bypassing Anti-Cheat..."})
@@ -29,21 +31,19 @@ wait(.1)
 game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Bypasser", Text = "Bypassed!"})
 end
 
+UIS.InputBegan:Connect(function(input,chatting)
+    if input.KeyCode == Enum.KeyCode.RightAlt then
+        spawn(function()
+        game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("UI"):WaitForChild("Diagnosis").Visible = not game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible
+    end)
+    end
+end)
 
-
-
-
-getgenv().enabled = true
-getgenv().speed = 3000
-getgenv().nocliptoggle = false 
-getgenv().train = false
-local autosleep 
-local delay
-local infstam
 plr.CharacterAdded:Connect(function()
 plr = game.Players.LocalPlayer
 char = plr.Character or plr.CharacterAdded:Wait()
 humrp = char:WaitForChild("HumanoidRootPart")
+hum = char:WaitForChild("Humanoid")
 
 spawn(function()
     char:WaitForChild("RAGARAGA"):Destroy()
@@ -51,16 +51,7 @@ spawn(function()
     end)
 end)
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
-local Hanma = library:CreateWindow("Blazing Hub(Hanma)")
-local Money = Hanma:CreateFolder("Money Farm")
-
-local response = Instance.new("BindableFunction")
-
-function response.OnInvoke(answer)
-if answer == "Yes" then
-
-end
-end
+local Hanma = library:CreateWindow("Blazing Hub(Hanma) v2")
 
 local title
 if plr.Name == "unseenshaow" then
@@ -72,272 +63,256 @@ elseif plr.Name == "lutchiensky1" then
 else
     title = "Welcome"
 end
+
 game:GetService("StarterGui"):SetCore("SendNotification",{Title = title, Text = "Thank You For Using Blazing Hub! Report Bugs to GODBlazing",Duration = 5,Button1 = "Yes",Button2 = "No",Callback = response})
 
+-----------------------------------------------------
+-- Global Functions & Variables
+local global = {}
 local ts = game:GetService("TweenService")
-local job = game:GetService("Workspace").bin.JobStarts["Grocery Delivery"]
-local StarterPack = game:GetService("StarterPack")
-local jobprompt = game:GetService("Workspace").bin.JobStarts["Grocery Delivery"].StartJob
-
-UIS.InputBegan:Connect(function(input,chatting)
-    if input.KeyCode == Enum.KeyCode.RightAlt then
+local gs = game:GetService("GroupService")
+local BV
+local noclipon
+local backpack= plr.Backpack
+local sleep
+local modkick 
+local sleepat = 55.1
+global.modkick = function(bool)
+    if bool then
         spawn(function()
-        print("Checking stats nigga")
-        
-        game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("UI"):WaitForChild("Diagnosis").Visible = not game:GetService("Players").LocalPlayer.PlayerGui.UI.Diagnosis.Visible
-    end)
+            for _,nigga in pairs(game.Players:GetChildren()) do
+                if nigga:IsA("Player") then
+                    local info = gs:GetGroupsAsync(nigga.UserId)
+                    local roles = {"Moderator","Animator","3D Artists","Administrator","Developer"}
+                    print("CHECKING")
+                    for i,v in pairs(info) do
+                       if v.Id == 4325351 and table.find(roles,v.Role)  then
+                          plr:Kick(nigga.Name.."("..v.Role..")".." WAS IN THE FUCKING GAME")
+                       elseif v.Id == 4325351 then
+                        print(v.Role)
+                           end
+                        end
+                end
+            end
+        end)
+        modkick = game.Players.PlayerAdded:Connect(function(join)
+            local info = gs:GetGroupsAsync(join.UserId)
+            local roles = {"Moderator","Animator","3D Artists","Administrator","Developer"}
+            for i,v in pairs(info) do
+               if v.Id == 4325351 and table.find(roles,v.Role)  then
+                  plr:Kick(join.Name.."("..v.Role..")".." JOINED THE FUCKING GAME")
+                   end
+                end
+        end)
+    elseif modkick then
+        modkick:Disconnect()
+        modkick = nil
     end
-end)
-
-local function noclip()
-    for i,v in pairs(char:GetDescendants()) do
-        if v:IsA("BasePart") and v.CanCollide then
-        v.CanCollide = false
-        end
-        end
+end
+global.getdata = function()
+    return game.ReplicatedStorage.Events.RequestData:InvokeServer()    
 end
 
-local function tweento(cfs,prompt)
-    if not nocliptoggle then nocliptoggle = game:GetService("RunService").Stepped:Connect(noclip) end
-    local cf = cfs*CFrame.new(0,-9,0)
-    local distance = (humrp.Position-cf.p).Magnitude
-    ts:Create(humrp,TweenInfo.new(distance/speed),{CFrame = cf}):Play()
-    if prompt then
-    repeat
-        wait()
-        fireproximityprompt(prompt)
-    until (humrp.Position-cf.p).Magnitude < 3
+global.autosleep = function()
+  if sleep and global.getdata().BodyPerformance <= sleepat then
+      -- sleep
+      local cf = humrp.CFrame
+      global.float(true)
+
+      for i,v in pairs(game:GetService("Workspace").bin.Beds.Hospital:GetChildren()) do
+        char.Humanoid:UnequipTools()
+        wait(.3)
+        global.tp(CFrame.new(v.Part.Position+Vector3.new(0,10,0)))
+        fireproximityprompt(v.Spawn.BedPrompt)
+        wait(.3)
+        fireproximityprompt(v.Spawn.BedPrompt)
+        wait(1)
+        if plr.CharacterValues.Resting.Value then break end
+    end
+    
+      repeat
+          wait()
+      until global.getdata().BodyPerformance >= 100 or not sleep
+      print("BACK UP")
+      hum.Jump = true
+      wait(.3)
+      global.float(false)
+      global.tp(cf)
+  end
 end
+
+global.noclip = function(bool)
+    if bool and not noclipon then
+        noclipon = game:GetService("RunService").Stepped:Connect(function()
+            for i,v in pairs(char:GetDescendants()) do
+                if v:IsA("BasePart") and v.CanCollide then
+                    v.CanCollide = false
+                end
+            end
+        end)
+    elseif noclipon then
+        noclipon:Disconnect()
+        noclipon = nil
+    end
 end
 
+global.tp = function(cf)
+    humrp.CFrame = cf
+end
 
+global.float = function(bool)
+    if bool and not BV then
+        BV = Instance.new("BodyVelocity",humrp)
+        BV.Velocity = Vector3.new(0,0,0)
+    elseif BV then
+        BV:Destroy()
+        BV = nil
+    end
+end
 
-local function buyfood()
-    if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) BV.MaxForce = Vector3.new(1e8,1e8,1e8) BV.P = 50000 end
-    if not nocliptoggle then nocliptoggle = game:GetService("RunService").Stepped:Connect(noclip) end
+global.Buy = function()
+    global.noclip(true)
+    global.float(true)
     local cf = humrp.CFrame
-    tweento(game:GetService("Workspace").bin.ShopButtons["Pepperoni Pizza"].Click.CFrame*CFrame.new(9,0,0))
+    global.tp(game:GetService("Workspace").bin.ShopButtons["Pepperoni Pizza"].Click.CFrame*CFrame.new(9,0,0))
     for i = 1,20 do
         wait(.03)
         fireclickdetector(game:GetService("Workspace").bin.ShopButtons["Pepperoni Pizza"].Click.ClickDetector)
     end
     wait(.5)
-    tweento(cf)
-    humrp.NIGGER:Destroy()
-    nocliptoggle:Disconnect()
-    nocliptoggle = false
+    global.tp(cf)
+    global.float(false)
+    global.noclip(false)
 end
 
-
-
-
-local function money()
-    if enabled then
-        local s,e = pcall(function()
-        while wait() do
-            if enabled then
-                if not nocliptoggle then nocliptoggle = game:GetService("RunService").Stepped:Connect(noclip) end
-                if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) BV.MaxForce = Vector3.new(1e8,1e8,1e8) BV.P = 50000 end
-                tweento(job.CFrame,jobprompt)
-                repeat wait() fireproximityprompt(jobprompt) until game.Players.LocalPlayer.CharacterValues.Jobs:FindFirstChild("Grocery Delivery")
-                local Job = game.Players.LocalPlayer.CharacterValues.Jobs:WaitForChild("Grocery Delivery"):WaitForChild("Tasks")
-                
-                for i,v in pairs(Job:GetChildren()) do
-                    tweento(v.Value.CFrame,v.Value.Deliver)
-                    fireproximityprompt(v.Value.Deliver)
-                    wait(.3)
-                     fireproximityprompt(v.Value.Deliver)
-                end
-            else
-                humrp:FindFirstChild("NIGGER"):Destroy()
-                nocliptoggle:Disconnect()
-                nocliptoggle = false
-                humrp.CFrame = CFrame.new(Vector3.new(195.88958740234, 183.39001464844, -15.767706871033))
-                break
-            end
-        end
-    end)
-    if not s then print(e) end
-    end
+global.Eat = function()
+    repeat
+        wait()
+        char.Humanoid:UnequipTools()
+        char.Humanoid:EquipTool(plr.Backpack["Pepperoni Pizza"])
+        char:WaitForChild("Pepperoni Pizza"):Activate()
+        char.ChildRemoved:Wait()
+    until game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger >= 50
 end
 
-
-
-local Speed = Money:Slider("Tween Speed",{min = 1, max = 3000,precise = true},function(value)
-    speed = value
-end)
-
-local MoneyToggle = Money:Toggle("Money Farm",function(bool)
-    enabled = bool
-    spawn(function()
-        if enabled then
-            money()
-        end 
-    end)
-end)
-
-local Train = Hanma:CreateFolder("Training")
-
-local tools = plr.Backpack:GetChildren()
-table.insert(tools,char:FindFirstChildOfClass("Tool"))
-
-
-local selected
-local ToolList = Train:Dropdown("Tool",tools,true,function(tool)
-    selected = tool
-end)
-
-Train:Slider("Delay",{min = 0, max = 60, precise = true},function(chose)
-    delay = chose
-end)
-local function dropdrownrefresh(which)
-    if which == "tools" then
-        tools = plr.Backpack:GetChildren()
-        table.insert(tools,char:FindFirstChildOfClass("Tool"))
-        ToolList:Refresh(tools)
-    end
-end
-plr.Backpack.ChildAdded:Connect(dropdrownrefresh)
-
-local function gosleep()
-    
-    if autosleep and train and game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance <= 51.1 then
-        char:Destroy()
-        plr.CharacterAdded:Wait()
-        wait(1)
-        if not humrp:FindFirstChild("NIGGER") then local BV = Instance.new("BodyVelocity",humrp) BV.Name = "NIGGER" BV.Velocity = Vector3.new(0,0,0) BV.MaxForce = Vector3.new(1e8,1e8,1e8) BV.P = 50000 end
-        if infstam and char:FindFirstChild("Head") then
-         --   char.Head:Remove()
-        end
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title = "", Text = "Waiting to unragdoll(safe)"})
-        repeat
-            wait()
-        until not game:GetService("Players").LocalPlayer.CharacterValues.Ragdoll.Value
-        for i,v in pairs(game:GetService("Workspace").bin.Beds.Hospital:GetChildren()) do
-            char.Humanoid:UnequipTools()
-            wait(.3)
-            tweento(CFrame.new(v.Part.Position+Vector3.new(0,10,0)))
-            fireproximityprompt(v.Spawn.BedPrompt)
-            wait(.3)
-            fireproximityprompt(v.Spawn.BedPrompt)
-            wait(1)
-            if not plr.CharacterValues.Resting.Value then
-                
-            else
-                break
-            end
-        end
-
-        repeat
-            wait()
-        until not autosleep or game.ReplicatedStorage.Events.RequestData:InvokeServer().BodyPerformance >= 100
-        wait(.3)
-        char.Humanoid.Jump = true
-        char.Humanoid.Jump = true
-        char.Humanoid.Jump = true
-        wait(.4)
-        char:Destroy()
-        plr.CharacterAdded:Wait()
-        wait(1)
-        plr.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-1007.899230957, 97.957931518555, -1503.5264892578))
-    end
-end
-
-local trainall
+---- Training
+local Toggled
+local Delay = 1
 local lowstam = .2
+local trainall
+local exercise
+local CFunctions = {}
 
-Train:Slider("% Stamina Stop At",{min = 0, max =100, precise = true},function(bool)
-    lowstam = bool/100
-end)
-Train:Toggle("Train All",function(bool)
-    trainall = bool
-end)
+CFunctions.calisthenics = function(bool)
+    local s,e = pcall(function()
+    if Toggled and bool and exercise then
+            if Toggled then
+            print("started")
+            -- checks
+            local resume = false
+            spawn(function()
+            while wait() do
+                if global.getdata().Hunger <= 50 then
+                    resume = false
+                    global.Buy()
+                    global.Eat()
+                end
 
-local Calisthenics = Train:Toggle("Caisthenic Training",function(bool)
- 
-    local totrain
-    train = bool
-    if train then
-        for i,v in pairs(tools) do
-            if v.Name == selected then
-                totrain = v
-                char.Humanoid:EquipTool(v)
-                break
+                if global.getdata().BodyPerformance <= sleepat then
+                    resume = false
+                    global.autosleep()
+                else
+                    if global.getdata().Stamina <= (200+global.getdata().Endurance*1.3)*lowstam then
+                        resume = false
+                        repeat
+                            wait()
+                        until global.getdata().Stamina >= (200+global.getdata().Endurance*1.3) or not Toggled
+                    end
+    
+    
+                    resume = true
                 end
             end
-            char:Destroy()
-            plr.CharacterAdded:Wait()
-            wait(1)
-            plr.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-1007.899230957, 97.957931518555, -1503.5264892578))
-        spawn(function()
-            repeat
-                local s,e = pcall(function()
-                    print("GOING ON")
-                wait(delay)
-
-                if game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger <= 30  then
-                    buyfood()
-                    repeat
-                        wait()
-                        char.Humanoid:UnequipTools()
-                        char.Humanoid:EquipTool(plr.Backpack["Pepperoni Pizza"])
-                        char:WaitForChild("Pepperoni Pizza"):Activate()
-                        char.ChildRemoved:Wait()
-                    until game.ReplicatedStorage.Events.RequestData:InvokeServer().Hunger >= 100
-                end
-
-                if game.ReplicatedStorage.Events.RequestData:InvokeServer().Stamina <= (200+game.ReplicatedStorage.Events.RequestData:InvokeServer().Endurance*1.3)*lowstam then
-                    repeat
-                        wait()
-                    until game.ReplicatedStorage.Events.RequestData:InvokeServer().Stamina >= (200+game.ReplicatedStorage.Events.RequestData:InvokeServer().Endurance*1.3)
-                end
-                if infstam and char:FindFirstChild("Head") then
-                    char.Head:Remove()
-                end
-                print("going 2")
-                gosleep()
-                if not char:FindFirstChildOfClass("Tool") and not trainall and game.ReplicatedStorage.Events.RequestData:InvokeServer().Stamina >= (200+game.ReplicatedStorage.Events.RequestData:InvokeServer().Endurance*1.3)*lowstam then
-                    totrain = plr.Backpack:FindFirstChild(totrain.Name) or plr.Character:FindFirstChild(totrain.Name)
-                    char.Humanoid:EquipTool(totrain)
-                    totrain:Activate()
-                elseif trainall and game.ReplicatedStorage.Events.RequestData:InvokeServer().Stamina >= (200+game.ReplicatedStorage.Events.RequestData:InvokeServer().Endurance*1.3)*lowstam then
-                print(game.ReplicatedStorage.Events.RequestData:InvokeServer().Stamina*lowstam)
-                    char.Humanoid:UnequipTools()
-                local a,b,c =  plr.Backpack.Pushup,  plr.Backpack.Situp, plr.Backpack.Squat
+            end)
+            ------
+            -- train
+            spawn(function()
+                repeat
+                wait()
+                if Toggled and resume then
+                 hum:UnequipTools()
+                if trainall then
+                local a,b,c =  backpack.Pushup,  backpack.Situp, backpack.Squat
                 a.Parent = char
                 b.Parent = char
                 c.Parent = char
                 a:Activate()
                 b:Activate()
                 c:Activate()
+                elseif resume then
+                    hum:EquipTool(exercise)
+                    exercise:Activate()
                 end
-              
-            end) 
-            if not s then print(e) end
-            until not train
-            print("stopped?")
-        end)
+                wait(Delay)
+            end
+            until not Toggled
+            end)
+            end
+        end
+    end)
+    if not s then print(e) end
     end
+
+
+
+local CalisthenicsFolder = Hanma:CreateFolder("Calisthenics")
+
+
+
+CalisthenicsFolder:Slider("Delay",{min = 0, max = 100, precise = true},function(value)
+    Delay = value
 end)
 
-Train:Toggle("Auto-Sleep",function(bool)
-    autosleep = bool
+CalisthenicsFolder:Slider("% Low Stam",{min = 0, max = 100, precise = true},function(value)
+    lowstam = value/100
 end)
 
+CalisthenicsFolder:Dropdown("Exercise", {"Situp", "Pushup","Squat"},true,function(chosen)
+    exercise = backpack:FindFirstChild(chosen) or char:FindFirstChild(chosen)
+end)
+
+CalisthenicsFolder:Toggle("Train All",function(bool)
+    trainall = bool
+end)
+
+
+CalisthenicsFolder:Toggle("Start",function(bool)
+    Toggled = bool
+    spawn(function()
+    CFunctions.calisthenics(bool)
+    end)
+end)
+
+
+-------- Misc
 local Misc = Hanma:CreateFolder("Misc")
 
-Misc:Toggle("Inf Stamina",function(bool)
-    infstam = bool
- if bool then
-    char.Head:Remove()
- end
+Misc:Toggle("Mod-Kick",function(bool)
+    global.modkick(bool)
 end)
 
-Misc:Label("Right Alt for Stats",{TextSize = 25,TextColor = Color3.fromRGB(255,255,255),BgColor = Color3.fromRGB(0,0,0)})
-Misc:Button("Check Height",function()
-    game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Checking...", Text = "Your Height is.. "..char.Humanoid.BodyHeightScale.Value,Duration = 5})
+Misc:Toggle("Auto-Sleep",function(bool)
+    sleep = bool
+    spawn(function()
+        global.autosleep()
+    end) 
+end)
+
+Misc:Slider("Sleep %",{min = 0, max = 100, precise = true},function(value)
+    sleepat = value
 end)
 
 Misc:Button("Buy Pizza",function()
-   buyfood()
+global.Buy()
 end)
+
