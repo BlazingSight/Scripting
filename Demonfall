@@ -1,0 +1,324 @@
+local UserInputService = game:GetService("UserInputService")
+
+
+local set_identity = (type(syn) == 'table' and syn.set_thread_identity) or setidentity or setthreadcontext
+
+
+plr = game.Players.LocalPlayer
+ char = plr.Character
+ humrp = char.HumanoidRootPart
+ hum = char.Humanoid
+ UIS = game:GetService("UserInputService")
+local Nigga
+
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+local DF = library:CreateWindow("Blazing Hub(DemonFall)")
+local EXPFarm = DF:CreateFolder("Mob Farm")
+local respawndb = false
+local noclip
+local set_identity = (type(syn) == 'table' and syn.set_thread_identity) or setidentity or setthreadcontext
+local autoskills = {false,false,false,false,false,false}
+local teleports = {}
+set_identity(7)
+--local Mobs = game:GetService("Workspace").missiongivers:GetChildren()
+
+getgenv().EXPToggled = false
+getgenv().SunImmunity = false
+local spawns = {["Green Demon"] = Vector3.new(1404.3950195312, 732.88238525391, -6736.9448242188), ["GenericOni"] = Vector3.new(-3968.4663085938, 736.42456054688, 973.19244384766)}
+
+
+
+
+local GFunctions = {}
+GFunctions.TP = function(cf)
+    if char.Health.Value <= 1 then return end
+    char:WaitForChild("SpawnedCharacter")
+    humrp.CFrame = cf
+end
+
+GFunctions.Noclip = function()
+    noclip = game:GetService("RunService").Stepped:Connect(function()
+     for i,v in pairs(char:GetDescendants()) do
+         if v:IsA("BasePart") then 
+             v.CanCollide = false
+         end
+     end
+    end)
+ end
+
+GFunctions.Respawn = function()
+    print("RESPAWNING...")
+    repeat wait() until not respawndb
+    if char.Health.Value <= 1 or not char:IsDescendantOf(game.Workspace) then return end
+    respawndb = true
+    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Player","SpawnCharacter")
+    delay(8,function()
+    respawndb = false
+    end)
+end
+
+GFunctions.Skill = function(numb)
+    set_identity(2)
+    local InputObject = {}
+    InputObject.KeyCode = Enum.KeyCode[numb]
+firesignal(UserInputService.InputBegan,InputObject)
+set_identity(7)
+end
+
+GFunctions.FindMob = function()
+    print("FINDING")
+    workspace:WaitForChild(NPC,1111)
+    local spot = nil
+    local start = tick()
+    repeat
+        wait()
+    for i,v in pairs(workspace:GetChildren()) do
+        if not game.Players:FindFirstChild(v.Name) and v:FindFirstChild("Humanoid") and v:FindFirstChild("Health") and v.Health.Value > 1 and v:FindFirstChild("HumanoidRootPart") then
+        if v.Name == NPC and v:WaitForChild("HumanoidRootPart",.1) and v.Health.Value >= 10 and not v:FindFirstChild("Executed") and not v:FindFirstChild("Executing") then 
+            print(v.Health.Value)
+            print("FOUND")
+            spot = v
+            break
+        end
+    end
+end
+if tick()-start >= 9 and spot == nil and workspace:FindFirstChild("Zones") then
+    start = tick()
+     GFunctions.Respawn() 
+     char:WaitForChild("SpawnedCharacter") 
+     wait(1) 
+     GFunctions.TP(workspace.Zones:GetChildren()[math.random(1,#workspace.Zones:GetChildren())].CFrame) 
+    end
+until spot ~= nil or not EXPToggled 
+return spot
+end
+
+GFunctions.Float = function(boolean)
+    if not humrp:FindFirstChild("Rigga") and boolean then
+        local BV = Instance.new("BodyVelocity",humrp)
+        BV.Name = "Rigga"
+        BV.Velocity = Vector3.new(0,0,0)
+        BV.MaxForce = Vector3.new(1e8,1e8,1e8)
+    elseif not boolean and humrp:FindFirstChild("Rigga") then
+        print("deleting")
+        humrp:FindFirstChild("Rigga"):Destroy()
+    end
+end
+
+
+local function EXPFARM()
+if EXPToggled then 
+
+ GFunctions.Float(true)
+
+
+GFunctions.Respawn()
+GFunctions.Noclip()
+char:WaitForChild("SpawnedCharacter")
+wait(1)
+game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana","EquippedEvents",true,true);
+
+if NPC ~= "Green Demon" then
+GFunctions.TP(CFrame.new(Vector3.new(-3968.4663085938, 736.42456054688, 973.19244384766)))
+else
+    GFunctions.TP(CFrame.new(Vector3.new(1404.3950195312, 732.88238525391, -6736.9448242188)))
+end
+
+Nigga = GFunctions.FindMob()
+
+
+-- attributes
+spawn(function()
+while wait() do
+ if not EXPToggled then break end
+   if char.Health.Value <= 1 then 
+   --GFunctions.Respawn()
+end
+end
+end)
+
+spawn(function()
+    local con
+    local destroy = {"Busy","Ragdoll","Stun","Combat","SequenceFactor"}
+  con = game:GetService("RunService").Stepped:Connect(function(child)
+        if not EXPToggled then con:Disconnect() end
+        for i,v in pairs(destroy) do 
+            print("F")
+            if char:FindFirstChild(v) then 
+                print("DESTRROY")
+                char[v]:Destroy()
+            end
+        end
+    end)
+end)
+---
+
+while wait() do
+    if not EXPToggled then break end
+    print("STARTING AGAIN")
+    repeat 
+       
+        wait()
+
+        if not char:FindFirstChild("Breath") then
+            game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Character","Breath",true)
+            char:WaitForChild("Breath")
+                end
+
+        spawn(function()
+            
+        GFunctions.TP(Nigga.HumanoidRootPart.CFrame*CFrame.new(0,0,3))
+        end)
+        local translate = {"One","Two","Three","Four","Five","Six"}
+        spawn(function() 
+           for i,v in pairs(autoskills) do
+            if v then GFunctions.Skill(translate[i]) end 
+        end
+        end)
+        game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Combat","Server")
+        game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana","Server")
+    until not EXPToggled or Nigga:FindFirstChild("Health").Value <= 0 or Nigga:FindFirstChild("Executed")
+
+  if not EXPToggled then break end
+  if NPC ~= "Green Demon" then
+    repeat wait()
+        spawn(function()
+        if not Nigga:FindFirstChild("Executing") then
+            humrp.Anchored = false
+     GFunctions.Float(true)
+    GFunctions.TP(Nigga.HumanoidRootPart.CFrame*CFrame.new(0,-4,0))
+    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Character","Execute")
+        spawn(function()
+            Nigga:WaitForChild("Executing")
+            humrp:WaitForChild("BodyPosition"):Destroy()
+            humrp:WaitForChild("BodyGyro"):Destroy()
+            wait(.1)
+            if Nigga:FindFirstChild("Executing") then
+         GFunctions.TP(CFrame.new(Nigga.HumanoidRootPart.Position+Vector3.new(0,-15,0)))
+         GFunctions.TP(CFrame.new(Nigga.HumanoidRootPart.Position+Vector3.new(0,-15,0)))
+            end
+
+        end)
+
+        end
+    end)
+    wait()
+    until Nigga == nil or Nigga:FindFirstChild("Executed") or not EXPToggled 
+    end
+    GFunctions.TP(Nigga.HumanoidRootPart.CFrame)
+
+    for i,v in pairs(workspace:GetChildren()) do
+        if v.Name == "DropItem" and (humrp.Position-v.Position).Magnitude <= 10 then
+            GFunctions.TP(v.CFrame*CFrame.new(.5,0,0))
+            v:WaitForChild("Interact")
+            game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Character","Interaction",v) 
+        end
+    end
+    wait(.5)
+    spawn(function()
+        humrp.Anchored = false
+    end)
+    
+    Nigga = GFunctions.FindMob()
+    repeat wait() until Nigga:IsDescendantOf(game.Workspace)
+    if not EXPToggled then break end
+    GFunctions.Respawn()
+    GFunctions.Noclip()
+    wait(1)
+end
+end
+
+end
+
+EXPFarm:Dropdown("NPC",{"GenericOni","Tutorial Oni","GenericSlayer","FrostyOni","Green Demon","Kaigaku","Zenitsu"},true,function(mob)
+    NPC = mob
+    end)
+    
+
+EXPFarm:Toggle("Enable",function(bool)
+    EXPToggled = bool
+if bool then
+    spawn(function()
+    EXPFARM()
+    
+    end)
+else
+    GFunctions.Float(false)
+    GFunctions.Float(false)
+    GFunctions.Float(false)
+    noclip:Disconnect()
+end
+
+
+
+end)
+
+local SmartSkills = DF:CreateFolder("Smart Skill")
+
+SmartSkills:Toggle("Skill 1",function(bool)
+   autoskills[1] = bool
+end)
+
+SmartSkills:Toggle("Skill 2",function(bool)
+    autoskills[2] = bool
+end)
+
+SmartSkills:Toggle("Skill 3",function(bool)
+    autoskills[3] = bool
+end)
+
+SmartSkills:Toggle("Skill 4",function(bool)
+    autoskills[4] = bool
+end)
+
+SmartSkills:Toggle("Skill 5",function(bool)
+    autoskills[5] = bool
+end)
+
+SmartSkills:Toggle("Skill 6",function(bool)
+    autoskills[6] = bool
+end)
+
+
+local DemonMisc = DF:CreateFolder("Demon")
+DemonMisc:Button("Sun Immunity",function()
+    spawn(function()
+    while wait() do
+game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Character","DemonWeakness","Off")
+end
+end)
+end)
+
+local Teleports = DF:CreateFolder("Teleports")
+Teleports:Box("X","number",function(value)
+    teleports[1] = value
+end)
+
+Teleports:Box("Y","number",function(value)
+    teleports[2] = value
+end)
+
+Teleports:Box("Z","number",function(value)
+    teleports[3] = value
+end)
+
+Teleports:Button("TELEPORT NIGGA",function()
+GFunctions.Respawn()
+wait(1)
+GFunctions.Teleport(CFrame.new(Vector3.new(teleports[1],teleports[2],teleports[3])))
+end)
+
+
+plr.CharacterAdded:Connect(function()
+    wait(3)
+    print("added")
+    plr = game.Players.LocalPlayer
+     char = plr.Character or plr.CharacterAdded:Wait()
+     humrp = char:WaitForChild("HumanoidRootPart")
+     hum = char.Humanoid
+     if EXPToggled then
+        wait(7)
+        EXPFARM()
+        game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana","EquippedEvents",true,true);
+     end
+    end)
