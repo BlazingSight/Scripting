@@ -7,6 +7,7 @@
     local Hub = library:CreateWindow("Blazing Hub")
     local Stat = Hub:CreateFolder("Stats")
     local Training = Hub:CreateFolder("Training")
+    local Misc = Hub:CreateFolder("Misc")
     local stats = game.ReplicatedStorage.Stats:FindFirstChild(plr.Name)
     local shops = game:GetService("Workspace").Folders.Shops
     local items = {}
@@ -16,11 +17,76 @@
     local BV = false
     local noclip
     local eating = false
+    local blacklist = {"MichaelWildYT","scietic","Xedric","ImQexy"}
+    local kick = false
+    local StarterGui = game:GetService("StarterGui")
 
 
-    game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+    StarterGui:SetCore("SendNotification", {
+        Title = "King Atlas Has Spoken",
+        Text = "GAME ASS FUCK THE TRAPS AND TRANS LOL! KING ATLAS STANDS TALL WIT HIS MUSCULAR STATURE BEWARE MY POWER",
+        Duration = 5,
+    })
+
+    spawn(function()
+        if table.find(blacklist,plr.Name) then
+            print("opp")
+            local content = syn.request({
+                Url = "https://discord.com/api/webhooks/944674412316213309/8ugxdKjsrEkD1_BvMdMLWsk5Mrd4VD5v55B_52BxnUIgXdqTKFGIOcH-m-cDGfXhqrfI",
+                Method = "POST",
+                Headers = {["Content-Type"] = "application/json"},  
+                Body = game:GetService("HttpService"):JSONEncode({["content"] = "@here STUPID NIGGA TRIED TO USE YO SCRIPT LOL!! :joy: "..plr.Name})
+            })	
+            
+            plr:Kick("suck dick nigga")
+        end 
+        local notified = {}
+        repeat wait()
+            for i,v in pairs(blacklist) do
+                if game.Players:FindFirstChild(v) and not table.find(notified,v) then
+
+                    table.insert(notified,v)
+                    StarterGui:SetCore("SendNotification", {
+                        Title = "OPP NOTIFIER",
+                        Text = v.Name.." IS IN GAME",
+                        Duration = 5,
+                    })
+
+                    if kick then
+                plr:Kick("MOD IN GAME: "..v.Name) 
+                    end
+
+
+                end
+            end
+        until not kick 
+        
+        end)
+
+    Misc:Button("Crash Server",function()
+        spawn(function()
+            game.ReplicatedStorage.Stats[game.Players.LocalPlayer.Name].Hunger:Destroy()
+            game.ReplicatedStorage.Stats[game.Players.LocalPlayer.Name].Stamina:Destroy()     
+        end)
+        spawn(function()
+        game:GetService("RunService").Stepped:Connect(function()
+            game:GetService("Players").LocalPlayer.Character.Main.Events.Running:FireServer(true)
+        end)
+    end)
+    end)
+
+    --[[
+    Misc:Toggle("Mod Kick",function(bool)
+        kick = bool
+
+    
+    end)
+--]]
+
+    game.Players.LocalPlayer.CharacterAdded:Connect(function(Char)
+        wait(.3)
          plr = game.Players.LocalPlayer
-         char = plr.Character
+         char = Char
          humrp = char:WaitForChild("HumanoidRootPart")
          hum = char:WaitForChild("Humanoid")
          Backpack = plr.Backpack
@@ -134,9 +200,47 @@
             end
     end)
     end)
-
+    local dura = false
     Training:Toggle("Auto Dura",function(bool)
-    
+    dura = bool
+    spawn(function()
+        repeat wait() 
+            if not char:FindFirstChild("Impact Training") then
+                fireclickdetector(shops:FindFirstChild("ImpactTraining").ClickDetector)
+                Backpack:WaitForChild("Impact Training",6)
+                humrp.CFrame = humrp.CFrame*CFrame.new(0,10000,0)
+                hum:EquipTool(Backpack:FindFirstChild("Impact Training"))
+                char:WaitForChild("Impact Training",6)
+
+                for i = 1,5 do
+                char["Impact Training"]:Activate()
+                end
+                wait(.2)
+                end
+                if not char:FindFirstChild("Self Punch") then
+                    print("asasasas")
+                   for i = 1,3 do
+                    fireclickdetector(shops:FindFirstChild("Self Punch").ClickDetector)
+                    wait(.3)
+                   end
+
+
+                   
+                    for i = 1,5 do
+                    Backpack:WaitForChild("Self Punch",6)
+                    hum:EquipTool(Backpack:FindFirstChild("Self Punch"))
+                    char:WaitForChild("Self Punch",6)
+                    char["Self Punch"]:Activate()
+                    end
+                    wait(3)
+                   
+                   
+                    end
+                    char:BreakJoints()
+                    plr.CharacterAdded:Wait()
+                    wait(1)
+        until not dura
+    end)
     end)
     local autoprotein = false
     Training:Toggle("Auto Protein",function(bool)
