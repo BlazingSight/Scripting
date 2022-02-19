@@ -68,10 +68,13 @@
             game.ReplicatedStorage.Stats[game.Players.LocalPlayer.Name].Hunger:Destroy()
             game.ReplicatedStorage.Stats[game.Players.LocalPlayer.Name].Stamina:Destroy()     
         end)
+        
         spawn(function()
+        while wait() do
         game:GetService("RunService").Stepped:Connect(function()
             game:GetService("Players").LocalPlayer.Character.Main.Events.Running:FireServer(true)
         end)
+        end
     end)
     end)
 
