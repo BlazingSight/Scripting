@@ -1,0 +1,237 @@
+-- Decompiled with the Synapse X Luau decompiler.
+
+while true do
+	game["Run Service"].Heartbeat:Wait();
+	if script.Parent.tradeRemote.Value ~= nil and game.Players.LocalPlayer then
+		break;
+	end;
+end;
+local v1 = require(game.ReplicatedStorage.Modules.LayoutUtil);
+local l__Value__2 = script.Parent.tradeRemote.Value;
+local v3 = require(game.ReplicatedStorage.Modules.TradeUI);
+if game:GetService("UserInputService").KeyboardEnabled == true then
+	script.Parent.Frame.SizeConstraint = Enum.SizeConstraint.RelativeYY;
+	script.Parent.Frame.Size = UDim2.new(0.7, 0, 0.4, 0);
+end;
+_G.tradeRemote = l__Value__2;
+local l__LocalPlayer__4 = game.Players.LocalPlayer;
+local v5 = require(game.ReplicatedStorage.Modules.ButtonEffect);
+local v6 = require(game.ReplicatedStorage.Modules.NameFormID);
+l__LocalPlayer__4.PlayerGui.trade.Frame.Visible = false;
+v3:setupFrame(script.Parent.Frame.Player);
+local u1 = Color3.fromRGB(170, 255, 127);
+local u2 = Color3.fromRGB(255, 85, 0);
+function roundNumber(p1, p2)
+	return math.floor(p1 * 10 ^ p2) / 10 ^ p2;
+end;
+local function u3(p3, p4)
+	local v7 = p3:GetChildren();
+	for v8 = 1, #v7 do
+		if v7[v8]:IsA("ImageButton") and v7[v8]:FindFirstChild("UIGradient") == nil then
+			script.UIGradient:Clone().Parent = v7[v8];
+		end;
+	end;
+	local v9 = Color3.fromRGB(170, 170, 255);
+	for v10 = 1, 5 do
+		if p3:FindFirstChild(v10) then
+			local v11 = p3:FindFirstChild(v10);
+			if v10 <= p4 then
+				p3:FindFirstChild(v10).UIGradient.Color = ColorSequence.new(v9);
+			elseif math.ceil(p4) == v10 then
+				local v12 = 1 - (v10 - p4);
+				v11.UIGradient.Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, v9), ColorSequenceKeypoint.new(v12, v9), ColorSequenceKeypoint.new(v12 + 0.01, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)) });
+			else
+				v11.UIGradient.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255));
+			end;
+		end;
+	end;
+end;
+local function u4(p5, p6)
+	local v13 = "ACCEPTED";
+	local v14 = u1;
+	if p6 == false then
+		v14 = u2;
+		v13 = "DECIDING";
+	end;
+	p5.TextColor3 = v14;
+	if p5.Text ~= v13 then
+		if p6 == false then
+			script.decline:Play();
+		else
+			script.accept:Play();
+		end;
+	end;
+	p5.Text = v13;
+end;
+local function u5(p7, p8)
+	local v15 = game.ReplicatedStorage:FindFirstChild("Stats" .. p7);
+	if v15 == nil then
+		return;
+	end;
+	u3(p8.Stars, v15.Trading.Rating.Value / v15.Trading.RatingsRecieved.Value);
+	p8.TextLabel.Text = v15.Trading.RatingsRecieved.Value .. " trades";
+end;
+local u6 = false;
+local function u7(p9)
+	local v16 = os.time() - p9;
+	local v17 = math.floor(v16 / 60) % 60;
+	local v18 = math.floor(v16 / 3600) % 24;
+	local v19 = math.floor(v16 / 86400);
+	if not (v19 < 1) then
+		return v19, "Days", v16;
+	end;
+	if v18 > 0 then
+		return v18, "Hours", v16;
+	end;
+	if v17 > 0 then
+		return v17, "Mins", v16;
+	end;
+	return v16 % 60, "Seconds", v16;
+end;
+local function u8()
+	local l__ScrollingFrame__20 = script.Parent.Frame.Review.ScrollingFrame;
+	local v21 = Vector2.new(5, 5);
+	local l__UIGridLayout__22 = l__ScrollingFrame__20.UIGridLayout;
+	local v23 = Vector2.new(1, 0.4) * l__ScrollingFrame__20.AbsoluteSize;
+	if l__ScrollingFrame__20:IsA("ScrollingFrame") then
+		l__UIGridLayout__22.CellSize = UDim2.new(0, v23.X, 0, v23.Y);
+		l__ScrollingFrame__20.CanvasSize = UDim2.new(0, l__UIGridLayout__22.AbsoluteContentSize.X, 0, l__UIGridLayout__22.AbsoluteContentSize.Y);
+	end;
+end;
+l__Value__2.OnClientEvent:Connect(function(p10)
+	if p10.chat ~= nil then
+		return;
+	end;
+	local v24 = 0;
+	local v25, v26, v27 = pairs(p10.offers);
+	while true do
+		local v28 = nil;
+		local v29 = nil;
+		v29, v28 = v25(v26, v27);
+		if not v29 then
+			break;
+		end;
+		v27 = v29;
+		v24 = v24 + 1;
+		if v29 ~= game.Players.LocalPlayer.Name then
+			v3:displayTrade(script.Parent.Frame.Trader.Items, v28);
+		else
+			v3:updateItems(script.Parent.Frame.Player, v28);
+		end;	
+	end;
+	local v30, v31, v32 = pairs(p10.accepted);
+	while true do
+		local v33 = nil;
+		local v34 = nil;
+		v34, v33 = v30(v31, v32);
+		if not v34 then
+			break;
+		end;
+		local v35 = game.ReplicatedStorage:FindFirstChild("Stats" .. v34);
+		local v36 = script.Parent.Frame.Player;
+		if v34 == game.Players.LocalPlayer.Name then
+			u4(script.Parent.Frame.Player.STATUS, v33);
+			if v33 == true then
+				script.Parent.Frame.Accept.Visible = false;
+			else
+				script.Parent.Frame.Accept.Visible = true;
+			end;
+		else
+			v36 = script.Parent.Frame.Trader;
+			u4(script.Parent.Frame.Trader.STATUS, v33);
+		end;
+		if v35 then
+			v36.Level.Text = "LVL: " .. tostring(v35.Stats.Level.Value);
+		end;	
+	end;
+	for v37, v38 in pairs(p10.hasItems) do
+		if v37 ~= game.Players.LocalPlayer.Name then
+			_G.targetPlayerInventory = v38;
+			_G.targetPlayer = game.Players:FindFirstChild(v37);
+		end;
+	end;
+	for v39, v40 in pairs(p10.accepted) do
+		if v39 == game.Players.LocalPlayer.Name then
+			u5(v39, script.Parent.Frame.Player.Username.StarFrame);
+		else
+			u5(v39, script.Parent.Frame.Trader.Username.StarFrame);
+		end;
+	end;
+	if p10.countdown ~= nil then
+		script.Parent.Frame.Countdown.Text = p10.countdown;
+		local v41 = u1:Lerp(u2, 1 - tonumber(script.Parent.Frame.Countdown.Text) / 10);
+		script.Parent.Frame.Countdown.Visible = true;
+		local v42 = script.Parent.Frame.Countdown.ImageLabel:Clone();
+		v42.Name = "f";
+		v42.Visible = true;
+		v42.Parent = script.Parent.Frame.Countdown;
+		_G.tween(v42, { 0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0 }, {
+			Size = UDim2.new(3, 0, 3, 0), 
+			ImageTransparency = 1, 
+			ImageColor3 = v41
+		});
+		_G.tween(script.Parent.Frame.Countdown, { 0.45, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0 }, {
+			TextColor3 = v41
+		});
+		_G.destroy(v42, 0.5);
+		if script:FindFirstChild(p10.countdown) and script:FindFirstChild(p10.countdown).IsPlaying == false then
+			local v43 = script:FindFirstChild(p10.countdown):Clone();
+			v43.Parent = l__LocalPlayer__4.PlayerGui;
+			v43:Play();
+			_G.destroy(v43, 10);
+		end;
+	else
+		script.Parent.Frame.Countdown.Visible = false;
+	end;
+	if p10.clear ~= nil then
+		v3:clearAll();
+	end;
+	if u6 == false then
+		for v44, v45 in pairs(p10.reviews) do
+			if v44 ~= game.Players.LocalPlayer.Name and v45 ~= {} then
+				u6 = true;
+				local v46 = 0;
+				local l__Reviews__47 = v45.Reviews;
+				script.Parent.Frame.Review.totalReviews.Text = "Total Reviews: " .. v45.TotalReviews;
+				for v48 = 1, #l__Reviews__47 do
+					if l__Reviews__47[v48].timeStamp ~= nil then
+						v46 = v46 + 1;
+					end;
+				end;
+				for v49 = 1, #l__Reviews__47 do
+					local v50 = l__Reviews__47[v49];
+					if v50.timeStamp ~= nil then
+						local v51 = script.Frame:Clone();
+						v51.Parent = script.Parent.Frame.Review.ScrollingFrame;
+						v51.Username.Text = v6(v50.playerID);
+						v51.desc.Text = v50.reviewText;
+						u3(v51.Stars, v50.starsGiven);
+						v51.Visible = true;
+						local l__AbsolutePosition__52 = v51.Stars.AbsolutePosition;
+						v51.desc.Size = UDim2.new(v51.desc.Size.X.Scale, 0, 0, v51.desc.TextBounds.Y);
+						local v53, v54, v55 = u7(v50.timeStamp);
+						v51.days.Text = tostring(v53) .. " " .. v54 .. " ago";
+						v51.desc.TextScaled = true;
+						v51.days.TextColor3 = v51.days.TextColor3:Lerp(Color3.fromRGB(255, 0, 0), math.clamp(v55 / 2592000, 0, 1));
+						v51.LayoutOrder = 100000000000 - (100000000000 - v55);
+						u8();
+					end;
+				end;
+			end;
+		end;
+	end;
+end);
+script.Parent.Frame.Decline.MouseButton1Click:Connect(function()
+	v5:Activate(script.Parent.Frame.Decline);
+	l__Value__2:FireServer({
+		decline = true
+	});
+end);
+script.Parent.Frame.Accept.MouseButton1Click:Connect(function()
+	v5:Activate(script.Parent.Frame.Accept);
+	l__Value__2:FireServer({
+		accept = true
+	});
+end);
+v1(script.Parent.Frame.Player.Inventory.UIGridLayout);
+script.Parent:GetPropertyChangedSignal("AbsoluteSize"):Connect(u8);
